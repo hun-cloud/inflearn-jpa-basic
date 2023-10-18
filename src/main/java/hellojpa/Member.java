@@ -6,23 +6,37 @@ import java.util.Date;
 @Entity
 public class Member {
 
-    @Id
+    @Id @GeneratedValue
     private Long id;
 
-    @Column(name = "name")
-    private String userName;
+    private String username;
 
-    private Integer age;
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
-    @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    public Long getId() {
+        return id;
+    }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
+    public String getUsername() {
+        return username;
+    }
 
-    @Lob
-    private String description;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void changeTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
 }
